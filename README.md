@@ -1,15 +1,16 @@
-# Job board starter
+# InsiderOne Job Board: Saved Jobs
 
 A small job board for an insiderOne work sample. It is made up: the jobs and
 companies are not real.
 
 ## Run it
 
-You need Node 20 or newer. There are no packages to install.
+You need Node.js 20 or newer. The project uses only Node.js built-ins, so no
+packages need to be installed. In PowerShell, from the project directory:
 
 ```
-npm start      # then open http://localhost:3000
-npm test       # runs the tests in test/
+npm.cmd start  # then open http://localhost:3000
+npm.cmd test   # runs the tests in test/
 ```
 
 ## What is here
