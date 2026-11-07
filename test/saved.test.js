@@ -74,3 +74,44 @@ test("saved jobs API rejects an invalid save request", async (t) => {
   });
   assert.equal(response.status, 400);
 });
+
+test("saved jobs persist after the server restarts", async (t) => {
+  const directory = await mkdtemp(join(tmpdir(), "job-board-saved-"));
+  const savedPath = join(directory, "saved.json");
+  let app = createApp({ savedPath });
+  let baseUrl;
+
+  const start = async () => {
+    await new Promise((resolve) => app.listen(0, "127.0.0.1", resolve));
+    baseUrl = `http://127.0.0.1:${app.address().port}`;
+  };
+  const stop = async () => {
+    if (app.listening) {
+      await new Promise((resolve, reject) =>
+        app.close((error) => error ? reject(error) : resolve())
+      );
+    }
+  };
+
+  await start();
+  t.after(async () => {
+    await stop();
+    await rm(directory, { recursive: true, force: true });
+  });
+
+  const saveResponse = await fetch(`${baseUrl}/api/saved`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ jobId: "j1" })
+  });
+  assert.equal(saveResponse.status, 200);
+  await saveResponse.json();
+
+  await stop();
+  app = createApp({ savedPath });
+  await start();
+
+  const response = await fetch(`${baseUrl}/api/saved`);
+  assert.equal(response.status, 200);
+  assert.deepEqual((await response.json()).map((job) => job.id), ["j1"]);
+});
