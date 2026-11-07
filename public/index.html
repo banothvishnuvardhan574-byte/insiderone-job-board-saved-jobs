@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Job board</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 0 auto; max-width: 640px; padding: 16px; }
+      li { border: 1px solid #ddd; border-radius: 8px; list-style: none; margin: 8px 0; padding: 12px; }
+      ul { padding: 0; }
+      input { font-size: 16px; padding: 8px; width: 100%; box-sizing: border-box; }
+      button { cursor: pointer; font: inherit; padding: 6px 12px; }
+      button:disabled { cursor: default; }
+      section + section { border-top: 1px solid #ddd; margin-top: 24px; padding-top: 8px; }
+      #status { min-height: 1.5em; }
+    </style>
+  </head>
+  <body>
+    <h1>Jobs</h1>
+    <label for="search">Search jobs</label>
+    <input id="search" placeholder="Search by title, company or place" />
+    <p id="status" role="status" aria-live="polite"></p>
+    <section aria-labelledby="jobs-heading">
+      <h2 id="jobs-heading">All Jobs</h2>
+      <ul id="jobs"></ul>
+    </section>
+    <section aria-labelledby="saved-heading">
+      <h2 id="saved-heading">Saved Jobs</h2>
+      <ul id="saved-jobs"></ul>
+    </section>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
